@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transit Converter</title>
+    
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A62424">
+
+    <style>
+        :root {
+            --jp-washi: #F9F6F0;     /* Traditional cream-colored paper background */
+            --jp-sumi: #2A2A2A;      /* Refined calligraphy ink black */
+            --jp-vermilion: #A62424; /* Elegant Kyoto temple lacquer red */
+            --jp-moss: #EDF2ED;      /* Calm, minimalist tea green tint */
+            --jp-border: #DCD5C9;    /* Earthy layout border line */
+            --soft-white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        }
+  
+        body {
+            background-color: var(--jp-washi);
+            color: var(--jp-sumi);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        .app-container {
+            background: var(--soft-white);
+            max-width: 420px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(42, 42, 42, 0.04);
+            border: 1px solid var(--jp-border);
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .header {
+            border-bottom: 1px solid var(--jp-border);
+            padding: 35px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--jp-sumi);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 0.75rem;
+            color: #767676;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: calc(50% - 15px);
+            background: var(--jp-vermilion);
+            width: 30px;
+            height: 2px;
+        }
+
+        .content {
+            padding: 30px 25px 25px 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            color: #6A6A6A;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--jp-border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background-color: var(--jp-washi);
+            color: var(--jp-sumi);
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--jp-vermilion);
+            background-color: var(--soft-white);
+            box-shadow: 0 0 0 2px rgba(166, 36, 36, 0.05);
+        }
+
+        .currency-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: flex-end;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .swap-btn {
+            background: none;
+            border: 1px solid var(--jp-border);
+            border-radius: 6px;
+            color: var(--jp-sumi);
+            cursor: pointer;
+            font-size: 1.1rem;
+            height: 45px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .swap-btn:hover {
+            border-color: var(--jp-vermilion);
+            color: var(--jp-vermilion);
+            background-color: var(--jp-washi);
+        }
+
+        .result-card {
+            background: var(--jp-moss);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px dashed rgba(42, 42, 42, 0.1);
+        }
+
+        .result-amount {
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--jp-vermilion);
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--jp-sumi);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cheat-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .cheat-table tr {
+            border-bottom: 1px solid #EFECE6;
+        }
+
+        .cheat-table td {
+            padding: 10px 4px;
+            color: #4A4A4A;
+        }
+
+        .cheat-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+            color: var(--jp-sumi);
+        }
+
+        .quote-box {
+            background-color: var(--jp-washi);
+            border-left: 3px solid var(--jp-vermilion);
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #555555;
+            font-style: italic;
+        }
+
+        .credit {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 0.6rem;
+            color: #9A9A9A;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>通貨コンバータ</h1>
+        <p>Offline Currency Companion (2026)</p>
+    </div>
+
+    <div class="content">
+        <div class="input-group">
+            <label for="amount">Enter Amount</label>
+            <input type="number" id="amount" value="1000" placeholder="0.00" oninput="convert()">
+        </div>
+
+        <div class="currency-row">
+            <div>
+                <label for="fromCurrency">From</label>
+                <select id="fromCurrency" onchange="convert()">
+                    <option value="INR" selected>INR (₹)</option>
+                    <option value="JPY">JPY (¥)</option>
+                    <option value="VND">VND (₫)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="CNY">RMB (元)</option>
+                    <option value="HKD">HKD ($)</option>
+                </select>
+            </div>
+            
+            <button class="swap-btn" onclick="swapCurrencies()" title="Swap Currencies">⇄</button>
+            
+            <div>
+                <label for="toCurrency">To</label>
+                <select id="toCurrency" onchange="convert()">
+                    <option value="JPY" selected>JPY (¥)</option>
+                    <option value="INR">INR (₹)</option>
+                    <option value="VND">VND (₫)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="CNY">RMB (元)</option>
+                    <option value="HKD">HKD ($)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <label style="margin-bottom: 0; color: #6A6A6A;">Converted Result</label>
+            <div class="result-amount" id="resultDisplay">¥1,834.86</div>
+        </div>
+
+        <div class="section-title">
+            <span>Quick Reference Guide</span>
+            <span id="cheatSheetLabel" style="color: var(--jp-vermilion); font-weight: normal; text-transform: none;">Values</span>
+        </div>
+        <table class="cheat-table">
+            <tr id="row1"><td>Small Item / Snack Base</td><td class="val-display">0.00</td></tr>
+            <tr id="row2"><td>Standard Local Transit</td><td class="val-display">0.00</td></tr>
+            <tr id="row3"><td>Casual Dining Menu Base</td><td class="val-display">0.00</td></tr>
+            <tr id="row4"><td>Standard Restaurant Entry</td><td class="val-display">0.00</td></tr>
+            <tr id="row5"><td>Premium Day Outing Allocation</td><td class="val-display">0.00</td></tr>
+        </table>
+
+        <div class="section-title">
+            <span>Travel Thought</span>
+        </div>
+        <div class="quote-box">
+            "Every small lane holds an unexpected story, so keep your eyes open and cash ready."
+        </div>
+    </div>
+</div>
+
+<div class="credit">Made by Samarth with Gemini</div>
+
+<script>
+    // 2026 Flight-Safe Offline Baselines pinned strictly via INR conversions
+    const ratesInINR = {
+        INR: 1.0,
+        JPY: 0.545,  // 1 JPY = 0.545 INR
+        VND: 0.0033, // 1 VND = 0.0033 INR
+        USD: 83.50,  // 1 USD = 83.50 INR
+        EUR: 90.20,  // 1 EUR = 90.20 INR
+        CNY: 11.50,  // 1 RMB/CNY = 11.50 INR
+        HKD: 10.70   // 1 HKD = 10.70 INR
+    };
+
+    const currencySymbols = {
+        INR: "₹", JPY: "¥", VND: "₫", USD: "$", EUR: "€", CNY: "元", HKD: "$"
+    };
+
+    // Baseline targets scaled directly for the reference sheet values
+    const referenceTiers = [100, 250, 500, 1000, 5000];
+
+    function swapCurrencies() {
+        const fromEl = document.getElementById('fromCurrency');
+        const toEl = document.getElementById('toCurrency');
+        const temp = fromEl.value;
+        fromEl.value = toEl.value;
+        toEl.value = temp;
+        convert();
+    }
+
+    function convert() {
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const from = document.getElementById('fromCurrency').value;
+        const to = document.getElementById('toCurrency').value;
+
+        // Convert current primary input amount cleanly
+        const amountInINR = amount * ratesInINR[from];
+        const finalResult = amountInINR / ratesInINR[to];
+        const symbol = currencySymbols[to];
+        
+        document.getElementById('resultDisplay').innerText = `${symbol}${finalResult.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        
+        // Dynamically adjust label text to display active direction mapping
+        document.getElementById('cheatSheetLabel').innerText = `${from} to ${to} scaling`;
+
+        // Update Reference List table values seamlessly based on dropdown choices
+        const targetCells = document.querySelectorAll('.val-display');
+        referenceTiers.forEach((baseVal, index) => {
+            const calculatedTierVal = (baseVal * ratesInINR[from]) / ratesInINR[to];
+            targetCells[index].innerText = `${symbol}${calculatedTierVal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            
+            // Rewrite prefix item label context on the fly with reference base markers
+            const originalText = document.getElementById(`row${index+1}`).cells[0];
+            if(index === 0) originalText.innerText = `Base Value Tier (${from} ${baseVal})`;
+            if(index === 1) originalText.innerText = `Standard Segment (${from} ${baseVal})`;
+            if(index === 2) originalText.innerText = `Mid Tier Budget (${from} ${baseVal})`;
+            if(index === 3) originalText.innerText = `Extended Selection (${from} ${baseVal})`;
+            if(index === 4) originalText.innerText = `Premium Cap Limit (${from} ${baseVal})`;
+        });
+    }
+    
+    // Initial run on boot
+    convert();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js');
+}
+</script>
+</body>
+</html>

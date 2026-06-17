@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)file:///C:/Users/suppo/OneDrive/Documents/make-icons.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>PWA Icon Generator</title>
+</head>
+<body style="background: #F9F6F0; display: flex; flex-direction: column; gap: 50px; align-items: center; padding: 40px; font-family: system-ui, sans-serif;">
+
+    <h2 style="color: #2A2A2A;">Nano Banana App Icon Generator</h2>
+    <p style="color: #666; max-width: 500px; text-align: center;">Right-click each circular icon canvas layout below and choose <strong>"Save image as..."</strong> to download them directly into your project directory.</p>
+
+    <div style="text-align: center;">
+        <h4 style="color: #A62424; margin-bottom: 10px;">Save as: icon-192.png</h4>
+        <svg width="192" height="192" viewBox="0 0 192 192" style="border-radius: 32px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+            <rect width="192" height="192" fill="#F9F6F0"></rect>
+            <circle cx="96" cy="96" r="54" fill="#A62424"></circle>
+            <text x="96" y="112" font-family="system-ui, sans-serif" font-size="52" font-weight="bold" fill="#F9F6F0" text-anchor="middle">¥</text>
+        </svg>
+    </div>
+
+    <div style="text-align: center;">
+        <h4 style="color: #A62424; margin-bottom: 10px;">Save as: icon-512.png</h4>
+        <svg width="512" height="512" viewBox="0 0 512 512" style="border-radius: 96px; box-shadow: 0 12px 36px rgba(0,0,0,0.12);">
+            <rect width="512" height="512" fill="#F9F6F0"></rect>
+            <circle cx="256" cy="256" r="145" fill="#A62424"></circle>
+            <text x="256" y="300" font-family="system-ui, sans-serif" font-size="135" font-weight="bold" fill="#F9F6F0" text-anchor="middle">¥</text>
+        </svg>
+    </div>
+
+
+</body></html>
